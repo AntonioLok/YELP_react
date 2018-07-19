@@ -40,8 +40,8 @@ class Schedule extends Component {
     }
   
     this.props.history.push({
-      pathname: "/home",
-      state: "signup"
+      pathname: "/log-in",
+      state: true
     });
   }
 

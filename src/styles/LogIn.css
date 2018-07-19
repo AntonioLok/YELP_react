@@ -1,9 +1,46 @@
-h2 {
-  margin-top: 40px;
-}
 
 #log-in {
-  width: 50%;
+  width: 40%;
   text-align: center;
   margin: 0 auto;
+  margin-top: 70px;
+  border-right : solid 1px;
 }
+
+#login-container {
+  display: flex;
+}
+
+#fb-google {
+  display: block;
+  margin-top: 130px;
+  text-align: left;
+  width: 40%
+}
+
+#fb-loggin {
+  margin-bottom: 50px;
+}
+
+.fb-button  { 
+  width: 175px;
+  height: 60px;  
+  background: darkblue;
+  color:white;
+  border:0px transparent;  
+  text-align: center;
+}
+
+.fb-button i {
+  margin-right: 10px;
+}
+
+.google-button {
+  width: 175px;
+  height: 60px;  
+  background: red;
+  color: white;
+  border:0px transparent;  
+  text-align: center;
+}
+

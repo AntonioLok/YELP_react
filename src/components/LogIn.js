@@ -5,9 +5,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import Snackbar from 'material-ui/Snackbar';
+import { connect } from 'react-redux'
 import '../styles/LogIn.css';
 
-class Schedule extends Component {
+class LogIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +22,7 @@ class Schedule extends Component {
   }
 
   componentWillMount() {
+    console.log(this.props);
     this.props.history.push({
       pathname: "/log-in",
       state: false
@@ -47,14 +49,17 @@ class Schedule extends Component {
   }
 
   logIn(res, type) {
+    console.log(res);
     if (type === "facebook" && res.email) {
-      sessionStorage.setItem("email", JSON.stringify(res.email))
+      sessionStorage.setItem("email", JSON.stringify(res))
+      this.props.dispatchLogIn(res.email)      
       this.props.history.push({
         pathname: "/home",
         state: true
       });
     } else if (type === "google" && res.w3.U3) {
-      sessionStorage.setItem("email", JSON.stringify(res.w3.U3))
+      sessionStorage.setItem("email", JSON.stringify(res))
+      this.props.dispatchLogIn(res.w3.U3)
       this.props.history.push({
         pathname: "/home",
         state: true
@@ -143,4 +148,15 @@ class Schedule extends Component {
   }
 }
 
-export default Schedule;
+const mapStateToProps = state => (
+  {loggedIn : state}
+);
+
+const mapDispatchToProps = dispatch => (
+  {dispatchLogIn: (userEmail) => dispatch({type: "logging", email: userEmail})}
+);  
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LogIn);

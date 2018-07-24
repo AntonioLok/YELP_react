@@ -26,23 +26,41 @@ class Schedule extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.userName === null) {
-      this.setState({userNameError: "User field cannot be empty"})
+    if (this.state.userName === null || this.state.userName === "") {
+      this.setState({userNameError: "User field cannot be empty"});
+    } else {
+      this.setState({userNameError: null});
     }
-    if (this.state.email === null) {
-      this.setState({emailError: "Email field cannot be empty"})
+    if (this.state.email === null || this.state.email === "") {
+      this.setState({emailError: "Email field cannot be empty"});
+    } else {
+      this.setState({emailError: null}); 
     }
-    if (this.state.password === null) {
+    if (this.state.password === null || this.state.password === "") {
       this.setState({passwordError: "Password field cannot be empty"})
+    } else {
+      this.setState({passwordError: null});
     }
-    if (this.state.password !== this.state.rePassword) {
-      this.setState({rePasswordError: "Passwords do not match"})
+    if (this.state.rePassword === null || this.state.rePassword === "") {
+      this.setState({rePasswordError: "Re-Password field cannot be empty"})
+    } else if (this.state.password !== this.state.rePassword &&
+              this.state.password !== null && this.state.password !== "") {
+      this.setState({passwordError: "Passwords do not match",
+                    rePasswordError: "Passwords do not match"});
+    } else {
+      this.setState({rePasswordError: null});
     }
-  
-    this.props.history.push({
-      pathname: "/log-in",
-      state: true
-    });
+
+    if (this.state.userName !== null && this.state.userName !== "" &&
+        this.state.email !== null && this.state.email !== "" &&
+        this.state.password !== null && this.state.password !== "" &&
+        this.state.password === this.state.rePassword
+      ) {
+      sessionStorage.setItem("signedUp", true);
+      this.props.history.push({
+        pathname: "/log-in"
+      });
+    }
   }
 
   render() {

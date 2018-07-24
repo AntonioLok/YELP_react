@@ -23,15 +23,25 @@ class Header extends Component {
   }
 
   render() {
-
     const navStyle = {
       textDecoration: "none",
+      position: "relative",
       fontSize: "20px",
       fontFamily: "times",
       color: "black",
       lineHeight: "56px",
       marginRight: "15px",
       cursor: "pointer"
+    };
+
+    const iconStyle = {
+      textDecoration: "none",
+      color: "black",
+      paddingRight: "15px",
+      cursor: "pointer",
+      position: "absolute",
+      left: "-35px",
+      bottom: "-4px"
     };
 
     const loggedOut = (
@@ -43,32 +53,36 @@ class Header extends Component {
 
     const loggedIn = (
       <div>
-        <div style={navStyle} onClick={()=> this.logOut()}> Log Out </div>
+        <NavLink style={navStyle} to="/log-in"> 
+          <i style={iconStyle} className="material-icons md-29"> 
+             account_circle 
+          </i>
+           {sessionStorage.getItem("email")? JSON.parse(sessionStorage.getItem("email")).name : null}
+        </NavLink>
+        <NavLink style={navStyle} to="/" onClick={()=> this.logOut()}> Log Out </NavLink>
       </div>
     );
-    {console.log(this.props.loggedIn)}
     return (
-      <div>
-
-        <MuiThemeProvider>
-          <AppBar
-            title={
-              <NavLink style={{textDecoration: "none", fontSize: "30px", cursor: "pointer", color: "white"}}
-                to={"/home"}>
-                Fake Yelp Website
-              </NavLink>
-            }
-            iconElementRight={this.props.loggedIn.isLogged.loggedIn || sessionStorage.getItem("email") ? loggedIn : loggedOut }
-            showMenuIconButton={false}
-          />
-          <Snackbar
-            open={this.state.open}
-            message={"Successfully logged out"}
-            autoHideDuration={2000}
-            style={{textAlign: "center"}}
-          />
-        </MuiThemeProvider>
-      </div>
+      <MuiThemeProvider>
+        <div>
+        <AppBar
+          title={
+            <NavLink style={{textDecoration: "none", fontSize: "30px", cursor: "pointer", color: "white"}}
+              to={"/"}>
+              Fake Yelp Website
+            </NavLink>
+          }
+          iconElementRight={this.props.loggedIn.isLogged.loggedIn || sessionStorage.getItem("email") ? loggedIn : loggedOut }
+          showMenuIconButton={false}
+        />
+        <Snackbar
+          open={this.state.open}
+          message={"Successfully logged out"}
+          autoHideDuration={2000}
+          style={{textAlign: "center"}}
+        />
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

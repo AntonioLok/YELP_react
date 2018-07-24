@@ -16,17 +16,13 @@ class LogIn extends Component {
       password: null,
       emailError: null,
       passwordError: null,
-      open: this.props.location.state? true : false,
+      open: sessionStorage.getItem("signedUp")? true : false,
       msg: "Account successfully created!"
     };
   }
 
   componentWillMount() {
-    console.log(this.props);
-    this.props.history.push({
-      pathname: "/log-in",
-      state: false
-    });
+    sessionStorage.removeItem("signedUp");
   }
 
   handleChange(e) {
@@ -35,36 +31,39 @@ class LogIn extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.email === null) {
+    if (this.state.email === null || this.state.email === "") {
       this.setState({emailError: "Email field cannot be empty"})
+    } else {
+      this.setState({emailError: null})
     }
-    if (this.state.password === null) {
+    if (this.state.password === null || this.state.password === "") {
       this.setState({passwordError: "Password field cannot be empty"})
+    } else {
+      this.setState({passwordError: null})
     }
-
-    this.props.history.push({
-      pathname: "/home",
-      state: true
-    });
+    if (this.state.email !== null && this.state.email !== "" && this.state.password !== null && this.state.password !== "") {
+     this.successful();
+   }
   }
 
   logIn(res, type) {
     console.log(res);
     if (type === "facebook" && res.email) {
       sessionStorage.setItem("email", JSON.stringify(res))
-      this.props.dispatchLogIn(res.email)      
-      this.props.history.push({
-        pathname: "/home",
-        state: true
-      });
+      this.props.dispatchLogIn(res.email)
+      this.successful();
     } else if (type === "google" && res.w3.U3) {
       sessionStorage.setItem("email", JSON.stringify(res))
       this.props.dispatchLogIn(res.w3.U3)
-      this.props.history.push({
-        pathname: "/home",
-        state: true
-      });
+      this.successful();
     }
+  }
+
+  successful() {
+    sessionStorage.setItem("logged", true);
+    this.props.history.push({
+      pathname: "/home"
+    })
   }
 
   render() {

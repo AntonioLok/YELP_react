@@ -3,6 +3,7 @@ import Home from './Home'
 import SignUp from './SignUp'
 import LogIn from './LogIn'
 import Header from './Header'
+import Search from './Search'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import '../styles/App.css';
@@ -25,6 +26,7 @@ class App extends Component {
             <Route exact path="/home" component={ Home } />
             <Route exact path="/sign-up" component={ SignUp } />
             <Route exact path="/log-in" component={ LogIn } />
+            <Route exact path="/search" component={ Search } />
           </Switch>
         </div>
       </Router>

@@ -1,0 +1,107 @@
+#top {
+  height: 170px;
+  background-color: #cc0066;
+  display: flex;
+  justify-content: space-between;
+}
+
+#edit-btn {
+  text-decoration: none;
+  position: relative;
+  font-size: 20px;
+  font-family: times;
+  color: white;
+  line-height: 56px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+
+#profile-img {
+  margin-left: 40px;
+  position: relative;
+  width: 190px;
+}
+
+#add-photo {
+  position: absolute;
+  bottom: -70px;
+  left: 0;
+  width: 190px;
+  height: 35px;
+  opacity: 0.8;
+  color: white;
+  background-color: grey;
+  cursor: pointer;
+}
+
+#add-photo:hover {
+  position: absolute;
+  bottom: -70px;
+  left: 0;
+  width: 190px;
+  opacity: 0.7;
+  background-color: black;
+  cursor: pointer;
+}
+
+#img-btn-container {
+  position: relative
+}
+
+#profile-img img {
+  margin-top: 40px;
+  width: 190px;
+  height: 200px;
+}
+
+#fullname {
+  position: relative;
+  top: 100px;
+  height: 70px;
+  font-size: 50px;
+  color: white;
+}
+
+#bottom {
+  margin-top: 70px;
+  margin-bottom: 60px;
+  display: flex
+}
+
+#about {
+  margin-left: 25px;
+  margin-right: 40px;
+  margin-top: 40px;
+  width: 20%;
+  color: #cc0000;
+  font-size: 27px;
+  border-right: 1px solid #e6e6e6;
+  padding-right: 10px;
+}
+
+#activity-container {
+  width: 60%;
+  text-align: left;
+  color: #cc0000;
+  font-size: 35px;
+}
+
+#subtitle {
+  margin-top: 10px;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#info {
+  margin-top: 7px;
+  color: black;
+  font-size: 18px;
+}
+
+#activity {
+  margin-top: 12px;
+  color: black;
+  font-size: 24px;
+}

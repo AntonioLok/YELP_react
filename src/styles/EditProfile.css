@@ -1,0 +1,15 @@
+#edit-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+#edit-container img{
+  text-align: center;
+  margin: 0 auto;
+  width: 200px;
+  height: 220px;
+}
+
+h1 {
+  font-size: 15px;
+}

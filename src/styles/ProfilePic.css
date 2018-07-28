@@ -1,0 +1,49 @@
+#profile-pic-container{
+  margin: 0 auto;
+  margin-top: 60px;
+  width: 600px;
+  text-align: center;
+  position: relative;
+}
+
+#profile-pic-update{
+  margin-top: 40px;
+}
+
+#preview{
+  height: 350px;
+  width: 330px;
+  margin-top: 30px;
+}
+
+label#file {
+  padding: 10px;
+  background:rgb(153, 51, 102); 
+  display: table;
+  color: #fff;
+  position: absolute;
+  left: 40.5%;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+button {
+  margin-top: 25px;
+  cursor: pointer;
+  width: 100px;
+  height: 40px;
+  background-color: rgb(153, 51, 102);
+  color: white;
+}
+
+button:hover {
+  background-color: #391325;
+}
+
+button:disabled {
+  background-color: rgb(153, 51, 102);
+  opacity: 0.5;
+  cursor: default;
+}

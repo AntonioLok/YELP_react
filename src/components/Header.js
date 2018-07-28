@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { NavLink } from 'react-router-dom'
 import AppBar from 'material-ui/AppBar';
-import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import '../styles/Header.css';
 
@@ -12,7 +11,7 @@ class Header extends Component {
     super(props);
     this.state = {
       open : false,
-      loggedIn : sessionStorage.getItem("email")? true : false  
+      loggedIn : sessionStorage.getItem("user")? true : false  
     }
   }
 
@@ -28,43 +27,42 @@ class Header extends Component {
       position: "relative",
       fontSize: "20px",
       fontFamily: "times",
-      color: "black",
+      color: "white",
       lineHeight: "56px",
-      marginRight: "15px",
-      cursor: "pointer"
+      cursor: "pointer",
+      padding: "20px 15px 20px 15px"
     };
 
     const iconStyle = {
-      textDecoration: "none",
-      color: "black",
-      paddingRight: "15px",
-      cursor: "pointer",
-      position: "absolute",
-      left: "-35px",
-      bottom: "-4px"
+      position: "relative",
+      left: "-10px",
+      bottom: "-7px",
     };
 
     const loggedOut = (
-      <div>
-        <NavLink style={navStyle} to="/log-in"> Log In </NavLink> 
-        <NavLink style={navStyle}  to="/sign-up"> Sign Up </NavLink>
+      <div id="nav">
+        <NavLink id="nav" style={navStyle}  to="/log-in"> Log In </NavLink> 
+        <NavLink id="nav" style={navStyle}  to="/sign-up"> Sign Up </NavLink>
       </div>
     );
 
     const loggedIn = (
-      <div>
-        <NavLink style={navStyle} to="/log-in"> 
+      <div id="nav">
+        <NavLink style={navStyle} 
+        to={"/profile/" + (JSON.parse(sessionStorage.getItem("user"))? JSON.parse(sessionStorage.getItem("user"))._id : null)}>
           <i style={iconStyle} className="material-icons md-29"> 
              account_circle 
           </i>
-           {sessionStorage.getItem("email")? JSON.parse(sessionStorage.getItem("email")).name : null}
+           {sessionStorage.getItem("user")? 
+            JSON.parse(sessionStorage.getItem("user")).name + " " +
+            JSON.parse(sessionStorage.getItem("user")).lastName : null}
         </NavLink>
-        <NavLink style={navStyle} to="/" onClick={()=> this.logOut()}> Log Out </NavLink>
+        <NavLink id="nav" style={navStyle} to="/" onClick={()=> this.logOut()}> Log Out </NavLink>
       </div>
     );
     return (
       <MuiThemeProvider>
-        <div>
+        <div id="header-container">
         <AppBar
           title={
             <NavLink style={{textDecoration: "none", fontSize: "30px", cursor: "pointer", color: "white"}}
@@ -72,7 +70,8 @@ class Header extends Component {
               Fake Yelp Website
             </NavLink>
           }
-          iconElementRight={this.props.loggedIn.isLogged.loggedIn || sessionStorage.getItem("email") ? loggedIn : loggedOut }
+          style={{backgroundColor: "#993366", height: "70px"}}
+          iconElementRight={this.props.loggedIn.isLogged.loggedIn || sessionStorage.getItem("user") ? loggedIn : loggedOut }
           showMenuIconButton={false}
         />
         <Snackbar

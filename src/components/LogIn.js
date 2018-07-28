@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import Snackbar from 'material-ui/Snackbar';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { register } from './../register';
 import '../styles/LogIn.css';
 
 class LogIn extends Component {
@@ -14,14 +14,14 @@ class LogIn extends Component {
     this.state = {
       email: null,
       password: null,
+      error: null,
       emailError: null,
       passwordError: null,
-      open: sessionStorage.getItem("signedUp")? true : false,
       msg: "Account successfully created!"
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     sessionStorage.removeItem("signedUp");
   }
 
@@ -31,6 +31,7 @@ class LogIn extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    this.setState({error: null});
     if (this.state.email === null || this.state.email === "") {
       this.setState({emailError: "Email field cannot be empty"})
     } else {
@@ -42,38 +43,105 @@ class LogIn extends Component {
       this.setState({passwordError: null})
     }
     if (this.state.email !== null && this.state.email !== "" && this.state.password !== null && this.state.password !== "") {
-     this.successful();
+      this.signIn(null, "nonSocialMedia");
    }
   }
 
-  logIn(res, type) {
-    console.log(res);
+  signIn(res, type) {
+    let user;
     if (type === "facebook" && res.email) {
-      sessionStorage.setItem("email", JSON.stringify(res))
-      this.props.dispatchLogIn(res.email)
-      this.successful();
+      user = {username: res.email, name: res.name.split(" ")[0], lastName: res.name.split(" ")[1]}
     } else if (type === "google" && res.w3.U3) {
-      sessionStorage.setItem("email", JSON.stringify(res))
-      this.props.dispatchLogIn(res.w3.U3)
-      this.successful();
+      user = {username: res.w3.U3, name: res.w3.ofa, lastName: res.w3.wea};
+    } else if (type === "nonSocialMedia") {
+      user = {username: this.state.email}
+    }
+    this.logInHelper(user, type);
+  }
+
+  logInHelper(user, type) {
+    if (type === "nonSocialMedia") {
+      this.logIn(this.state.email, this.state.password)
+        .then(data => {
+          if (data.success === false) {
+            this.setState({error: data.message});
+          } else {
+            user.name = data.user.name;
+            user.lastName = data.user.lastName;
+            //sessionStorage.setItem("user", JSON.stringify(user));
+            //this.props.dispatchLogIn(user.username);
+            this.successful(user.username);
+          }
+        });
+    } else {
+      register(user);
+      //sessionStorage.setItem("user", JSON.stringify(user));
+      //this.props.dispatchLogIn(user.username);
+      this.successful(user.username);
     }
   }
 
-  successful() {
-    sessionStorage.setItem("logged", true);
-    this.props.history.push({
-      pathname: "/home"
+  successful(email) {
+    this.getUserInfo(email).then(data => {
+      sessionStorage.setItem("user", JSON.stringify(data.user));
+      sessionStorage.setItem("logged", true);
+      this.props.dispatchLogIn(email);
+      this.props.history.push({
+        pathname: "/home"
+      })
+    });
+  }
+
+  async logIn(userUsername, userPassword) {
+    return await fetch('http://localhost:8000/api/log-in', {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: userUsername,
+        password: userPassword,
+      })
+    })
+    .then((response) => {
+      if (response.status === 400) {
+        throw new Error(`Could not fetch data`);
+      }
+      return response.json()}
+    ).catch((error) => {
+      console.log("Request failed", error);
+    })
+  };
+
+  async getUserInfo(email) {
+    return await fetch('http://localhost:8000/api/profile/' + email, {
+      method: 'get',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then((response) => {
+      if (response.status === 400) {
+        throw new Error(`Could not fetch data`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.log("Request failed", error);
     })
   }
+  
 
   render() {
 
     const responseFacebook = (response) => {
-      this.logIn(response, "facebook")
+      this.signIn(response, "facebook")
     }
 
     const responseGoogle = (response) => {
-      this.logIn(response, "google")
+      this.signIn(response, "google")
     } 
 
     const form = (
@@ -81,6 +149,7 @@ class LogIn extends Component {
         <h2> Log In </h2>
         <TextField
           floatingLabelText="Email"
+          floatingLabelStyle={{color: "purple"}}
           name="email"
           type="email"
           onChange={(event) => this.handleChange(event)}
@@ -88,15 +157,19 @@ class LogIn extends Component {
         /><br />
         <TextField
           floatingLabelText="Password"
+          floatingLabelStyle={{color: "purple"}}
           name="password"
           type="password"
           onChange={(event) => this.handleChange(event)}
           errorText={this.state.passwordError}
         /><br />
-        <RaisedButton label="Log In" primary={true}
-          style={{marginTop: "40px", width: "30%"}}
+        <button 
           type="submit"
-        />
+        > Log In
+        </button>
+        <div style={{color: "red", marginTop: "30px"}}>
+          {this.state.error? "Error: " + this.state.error : null} 
+        </div>
     </form>
   );
 
@@ -134,12 +207,11 @@ class LogIn extends Component {
           <div id="fb-google">
            {FBform} {Googleform}
           </div>
-
           <Snackbar
-              open={this.state.open}
-              message={this.state.msg}
-              autoHideDuration={2000}
-              style={{textAlign: "center"}}
+            open={sessionStorage.getItem("signedUp") ? true : false}
+            message={this.state.msg}
+            autoHideDuration={2000}
+            style={{textAlign: "center"}}
           />
         </div>
       </MuiThemeProvider>

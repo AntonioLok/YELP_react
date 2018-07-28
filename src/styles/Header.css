@@ -8,3 +8,14 @@
 .material-icons.md-29 { font-size: 29px; }
 .material-icons.md-36 { font-size: 36px; }
 .material-icons.md-48 { font-size: 48px; }
+
+#nav a:not(.activeLink):hover {
+  background-color: rgba(54, 129, 175, 0.2);
+  border-left: solid 1px black;
+  border-right: solid 1px black;
+} 
+
+#header-container {
+  width: 1340px;
+  margin: 0 auto; 
+}

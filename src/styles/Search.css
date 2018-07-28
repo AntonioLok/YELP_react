@@ -1,0 +1,14 @@
+#search-top {
+  height: 70px;
+  background-color: #cc0066;
+  position: relative;
+  color: white;
+  font-size: 20px;
+}
+
+#search-text {
+  position: absolute;
+  bottom: 0px;
+  left: 20px;
+  font-size : 20px;
+}

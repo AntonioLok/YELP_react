@@ -164,11 +164,20 @@ router.put('/upload/img/:id', upload.single('file'), (req, res, next) => {
 	}
 });
 
-router.get('/search/:term/:location', (req, res, next) => {
+router.get('/search/:term/:location/:offset', (req, res, next) => {
 	client.search({
 	  term: req.params.term,
-	  location: req.params.location
+	  location: req.params.location,
+	  offset: (req.params.offset - 1) * 20
 	}).then(response => {
+	  res.json({ success: true, data: response.jsonBody})
+	}).catch(e => {
+	  res.json({ success: false, message: e.message})
+	});
+});
+
+router.get('/business/:name', (req, res, next) => {
+	client.business(req.params.name).then(response => {
 	  res.json({ success: true, data: response.jsonBody})
 	}).catch(e => {
 	  res.json({ success: false, message: e.message})

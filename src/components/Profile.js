@@ -105,10 +105,10 @@ class Profile extends Component {
       <MuiThemeProvider>
         <div id="profile-container">
           <Snackbar
-                open={sessionStorage.getItem("updated") ? true : false}
-                message={sessionStorage.getItem("updated")? sessionStorage.getItem("updated") : ""}
-                autoHideDuration={2000}
-                style={{textAlign: "center"}}
+            open={sessionStorage.getItem("updated") ? true : false}
+            message={sessionStorage.getItem("updated")? sessionStorage.getItem("updated") : ""}
+            autoHideDuration={2000}
+            style={{textAlign: "center"}}
           />
           {this.state.loaded?
           <div>

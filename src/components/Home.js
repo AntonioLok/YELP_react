@@ -32,7 +32,7 @@ class Home extends Component {
 
     if (this.state.item !== null && this.state.item !== ""  && this.state.place !== null && this.state.place !== "") {
       this.props.history.push({
-        pathname: "/search/" + this.state.item + "/" + this.state.place
+        pathname: "/search/" + this.state.item + "/" + this.state.place + "/1"
       });
     }
   }

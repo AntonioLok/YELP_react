@@ -1,5 +1,5 @@
 #search-top {
-  height: 70px;
+  height: 50px;
   background-color: #cc0066;
   position: relative;
   color: white;
@@ -8,7 +8,73 @@
 
 #search-text {
   position: absolute;
-  bottom: 0px;
-  left: 20px;
-  font-size : 20px;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size : 25px;
+}
+
+#rest-display-container {
+  height: 150px;
+  display: flex;
+  border-bottom: 1px solid #e6e6e6;
+  width: 90%;
+  margin: 0 auto;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  justify-content: space-around;
+}
+
+#rest-display-container img {
+  position: relative;
+  top: 10px;
+  width: 140px;
+  height: 140px;
+}
+
+#main-detail {
+  position: relative;
+  width: 1100px;
+}
+
+#mid {
+  width: 440px;
+  position: absolute;
+  left: 70px;
+  top: -10px;
+}
+
+#right {
+  width: 200px;
+  position: absolute;
+  right: 300px;
+  top: 10px;
+  text-align: right;
+}
+
+#right-right {
+  width: 200px;
+  position: absolute;
+  top: 10px;
+  right: 0px;
+}
+
+#pagination {
+  margin: 0 auto;
+  text-align: center;
+}
+
+#pag-element {
+  display: inline;
+  padding: 5px 5px 5px 5px;
+  cursor: pointer;
+}
+
+ul#pagination li{
+  display: inline;
+  color: blue;
+}
+
+#pagination-container {
+  margin-bottom : 60px;
 }

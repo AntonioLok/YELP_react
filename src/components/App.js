@@ -5,6 +5,7 @@ import LogIn from './LogIn';
 import Header from './Header';
 import Search from './Search';
 import Profile from './Profile';
+import Review from './Review';
 import ProfilePic from './ProfilePic';
 import EditProfile from './EditProfile';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -35,10 +36,11 @@ class App extends Component {
                 <Route exact path="/home" component={ Home } />
                 <Route exact path="/sign-up" component={ SignUp } />
                 <Route exact path="/log-in" component={ LogIn } />
-                <Route exact path="/search/:term/:location" component={ Search } />
+                <Route exact path="/search/:term/:location/:offset" component={ Search } />
                 <Route exact path="/profile/:id" component={ Profile } />
                 <Route exact path="/profile/:id/edit" component={ EditProfile } />
                 <Route exact path="/profile/:id/edit/profilepic" component={ ProfilePic } />
+                <Route exact path="/business/:name" component={ Review } />
               </Switch>
             </div>
         </div>

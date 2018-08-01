@@ -68,15 +68,11 @@ class LogIn extends Component {
           } else {
             user.name = data.user.name;
             user.lastName = data.user.lastName;
-            //sessionStorage.setItem("user", JSON.stringify(user));
-            //this.props.dispatchLogIn(user.username);
             this.successful(user.username);
           }
         });
     } else {
       register(user);
-      //sessionStorage.setItem("user", JSON.stringify(user));
-      //this.props.dispatchLogIn(user.username);
       this.successful(user.username);
     }
   }

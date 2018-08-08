@@ -1,8 +1,24 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-//import { withGoogleMap, GoogleMap } from 'react-google-maps';
 import '../styles/Review.css'; 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import GoogleMapReact from 'google-map-react';
+
+const Location = ({ text }) => (
+  <div style={{
+    color: 'red', 
+    background: 'none',
+    display: 'inline-flex',
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transform: 'translate(-50%, -50%)'
+  }}>
+    <i class="material-icons md-36">
+      place
+    </i>
+  </div>
+);
 
 class Review extends Component {
   constructor(props) {
@@ -46,7 +62,7 @@ class Review extends Component {
     let leftIconStyleActive = {
       color: "white",
       position: "absolute",
-      bottom: "168px",
+      bottom: "108px",
       cursor: "pointer"
     };
 
@@ -58,7 +74,7 @@ class Review extends Component {
       color: "white",
       position: "absolute",
       right: "0px",
-      bottom: "168px",
+      bottom: "108px",
       cursor: "pointer"
     }
 
@@ -109,16 +125,54 @@ class Review extends Component {
         </div>
       );
 
+      const map = (
+        
+      <div style={{ height: '240px', width: "480px" }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyDFOcuFXNPeY84D2vQFawFD3Osop0I9v7I"}}
+          defaultCenter={
+            {
+              lat: this.state.data.coordinates.latitude,
+              lng: this.state.data.coordinates.longitude
+            }
+          }
+          defaultZoom={13}
+        >
+          <Location
+            lat={this.state.data.coordinates.latitude}
+            lng={this.state.data.coordinates.longitude}
+            text={this.state.data.name}
+          />
+        </GoogleMapReact>
+      </div>
+      );
+
+      const review = (
+        <div id="review-component">
+          <h5> Reviews for {this.state.data.name} </h5>
+          <h2> No Reviews so far (Hardcoded) </h2>
+        </div>
+      )
+
       const mainPart = (
         <div id="main-part" >
           <div id="business-info"> 
+            <button 
+              onClick={()=> {this.props.history.push(this.props.location.pathname + ((this.props.location.pathname.slice(-1) === '/')? "" : "/") + "writeReview")}}
+              style={{width: "160px", fontSize: "18px", backgroundColor: "red"}}>
+                Write a review 
+            </button>
             <h3> Price </h3> {this.state.data.price}
             <h3> Phone # </h3> {this.state.data.phone}
             <h3> Hours ({this.state.data.is_closed===false? <div style={{color: "green", display: "inline"}}> Open </div> : <div style={{color: "red"}}> Closed now  </div>}) </h3> {hoursInfo}
             <h3> Address </h3> {address}
           </div>
           <div id="business-review">
-            {pictureSlides}
+            <div id="additional-info">
+              {pictureSlides}
+              {map}
+            </div>
+            {review}
           </div>
         </div>
       );
@@ -140,5 +194,6 @@ class Review extends Component {
     );
   }
 }
+
 
 export default Review

@@ -1,0 +1,12 @@
+#review-input {
+  height: 225px;
+  width: 60%;
+  margin: 0 auto;
+  display: block;
+}
+
+.stars {
+  margin: 0 auto;
+  display: block;
+  width: 167px;
+}

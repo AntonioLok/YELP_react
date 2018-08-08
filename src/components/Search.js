@@ -16,8 +16,12 @@ class Search extends Component {
     };
   }
 
-  async componentWillMount() {
+  componentWillMount() {
     //const body = {term: this.state.term, location: this.state.location}
+    this.getBusiness();
+  }
+
+  async getBusiness() {
     await axios.get('http://localhost:8000/api/search/' + this.state.term + "/"  + this.state.location + "/" + this.state.offset)
       .then((result) => 
         {if(result.data.success) {
@@ -28,6 +32,11 @@ class Search extends Component {
       }
     })
     .catch(error => console.log(error));
+  }
+
+  handleChange(value) {
+    this.props.history.push(value);
+    window.location.reload();
   }
 
   render() {
@@ -67,26 +76,46 @@ class Search extends Component {
     };
 
     const restaurants = [];
+    const pagList = [];
+    let pagination = null;
+    
       if (this.state.loaded) {
       for (var i=0; i < this.state.data.businesses.length; i++) {
         restaurants.push(<div key={i}> {restaurantDisplay(this.state.data.businesses[i])} </div>);
       }
-    }
 
-    // Hard coded still does not work
-    const pagination = (
-      <div id="pagination-container">
-        <ul id="pagination">
-          <div id="pag-element"> <li> {"<"} </li> </div>
-          <div id="pag-element" onClick={()=> this.props.history.push("1")}> <li> 1 </li> </div>
-          <div id="pag-element" onClick={()=> this.props.history.push("2")}> <li> 2 </li> </div>
-          <div id="pag-element" onClick={()=> this.props.history.push("3")}> <li> 3 </li> </div>
-          <div id="pag-element"> <li> {"4"} </li> </div>
-          <div id="pag-element"> <li> {"5"} </li> </div>
-          <div id="pag-element"> <li> {">"} </li> </div>
-        </ul>
-      </div>
-    )
+      const length = this.state.data.total < 8*20? this.state.data.total : 9;
+      for (var k = JSON.parse(this.state.offset); k <= length + JSON.parse(this.state.offset) ; k++) {
+        pagList.push(
+        <div id="pag-element" 
+          key={k}
+        >
+          <li 
+            value={k}
+            onClick={(event)=> this.handleChange(event.target.getAttribute('value'))}> {k} 
+          </li> 
+        </div>
+        )
+      }
+
+      const previous = (
+        <div id="pag-element" onClick={() => this.handleChange(JSON.stringify(JSON.parse(this.state.offset) - 1))}> Previous </div>
+      );
+
+      const next = (
+        <div id="pag-element" onClick={() => this.handleChange(JSON.stringify(JSON.parse(this.state.offset) + 1))}> Next </div>
+      );
+
+      pagination = (
+        <div id="pagination-container">
+          <ul id="pagination">
+            {JSON.parse(this.state.offset)===1? null : previous}
+            {pagList} 
+            {next}
+          </ul>
+        </div>
+      );
+    }
 
     const notFound = (
       <h1> No results found for {this.state.term} in {this.state.location}. <a href="/home" > Please try another input. </a> </h1>

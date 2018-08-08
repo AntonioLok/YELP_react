@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import '../styles/SignUp.css';
 
-class Schedule extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -135,4 +135,4 @@ class Schedule extends Component {
   }
 }
 
-export default Schedule;
+export default SignUp;

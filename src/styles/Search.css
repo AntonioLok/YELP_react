@@ -68,6 +68,8 @@
   display: inline;
   padding: 5px 5px 5px 5px;
   cursor: pointer;
+  display: inline;
+  color: blue;
 }
 
 ul#pagination li{
